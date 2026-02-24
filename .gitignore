@@ -172,3 +172,18 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+##############################
+## Angular Frontend
+##############################
+client-management-frontend/node_modules/
+client-management-frontend/dist/
+client-management-frontend/.angular/
+client-management-frontend/coverage/
+client-management-frontend/out-tsc/
+client-management-frontend/tmp/
+client-management-frontend/.sass-cache/
+client-management-frontend/npm-debug.log
+client-management-frontend/yarn-error.log
+client-management-frontend/yarn.lock
+client-management-frontend/package-lock.json
