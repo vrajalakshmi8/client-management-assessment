@@ -1,0 +1,16 @@
+INSERT INTO clients (fullName, displayName, email, details, active, location) VALUES
+('John Wick', 'John W.', 'John@wick.com', 'Highly skilled assassin known for his expertise in hand-to-hand combat and strategic takedowns.', true, 'New York, USA'),
+('John Snow', 'John S.', 'John@snow.com', 'Military commander with leadership experience, skilled in battle tactics and diplomacy.', false, 'The North, Westeros'),
+('John Doe', 'John D.', 'John@doe.com', 'An unidentified individual often used as a placeholder name in legal and investigative cases.', true, NULL),
+('John Lennon', 'John L.', 'John@lennon.com', 'Renowned musician, songwriter, and peace activist, known for revolutionizing rock music.', true, 'Liverpool, UK'),
+('John Adams', 'John A.', 'John@adams.com', 'Political leader and former president with expertise in governance, law, and diplomacy.', false, 'Massachusetts, USA'),
+('Jane Austen', 'Jane A.', 'Jane@austen.com', 'Acclaimed writer specializing in novels that explore themes of love, society, and morality.', true, 'Hampshire, UK'),
+('Emma Watson', 'Emma W.', 'Emma@watson.com', 'Actress and activist known for her roles in film and her advocacy for gender equality.', true, 'Paris, France'),
+('Harry Potter', 'Harry P.', 'Harry@potter.com', 'Student with advanced knowledge in magic, specializing in defense against dark arts.', false, 'Hogwarts, UK'),
+('Bruce Wayne', 'Bruce W.', 'Bruce@wayne.com', 'Entrepreneur and CEO with expertise in technology, business management, and philanthropy.', true, 'Gotham City, USA'),
+('Clark Kent', 'Clark K.', 'Clark@kent.com', 'Investigative journalist with strong reporting skills and a dedication to uncovering the truth.', true, 'Metropolis, USA'),
+('Diana Prince', 'Diana P.', 'Diana@prince.com', 'Diplomat and ambassador with expertise in international relations and conflict resolution.', true, 'Themyscira'),
+('Peter Parker', 'Peter P.', 'Peter@parker.com', 'Talented photographer with a knack for capturing high-quality images of spiders for media and journalism.', false, 'New York, USA'),
+('Tony Stark', 'Tony S.', 'Tony@stark.com', 'Brilliant engineer and entrepreneur specializing in cutting-edge technology and robotics.', true, 'Malibu, USA'),
+('Natasha Romanoff', 'Natasha R.', 'Natasha@romanoff.com', 'Highly trained intelligence operative skilled in espionage, combat, and counter-terrorism.', true, NULL),
+('Steve Rogers', 'Steve R.', 'Steve@rogers.com', 'Elite soldier with extensive military training and experience in battlefield leadership.', false, 'Brooklyn, USA');
