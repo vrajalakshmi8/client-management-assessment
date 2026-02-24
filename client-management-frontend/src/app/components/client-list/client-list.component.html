@@ -1,0 +1,215 @@
+<div class="list-container">
+  <!-- Search Bar -->
+  <div class="search-section">
+    <input
+      type="text"
+      placeholder="Search clients (minimum 3 characters)..."
+      (input)="onSearch($event)"
+      [value]="searchTerm()"
+      class="search-input"
+    />
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p class="loading-text">Loading clients...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="error-state">
+      <span class="error-icon">⚠️</span>
+      <p class="error-message">{{ error() }}</p>
+      <button (click)="loadClients()" 
+              class="btn btn-danger">
+        Retry
+      </button>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading() && !error()) {
+    @if (clients().length === 0) {
+      <!-- Empty State -->
+      <div class="empty-state">
+        <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <h3 class="empty-title">No clients found</h3>
+        <p class="empty-text">Get started by adding your first client.</p>
+        <a routerLink="/clients/new"
+           [queryParams]="getCurrentQueryParams()"
+           class="btn btn-primary">
+          Add Your First Client
+        </a>
+      </div>
+    } @else {
+      <!-- Responsive Table -->
+      <div class="table-container">
+        <table class="clients-table">
+          <thead class="table-header">
+            <tr>
+              <th class="th-id" (click)="sortBy('id')">
+                ID <span>{{ getSortIcon('id') }}</span>
+              </th>
+              <th class="th-name" (click)="sortBy('fullName')">
+                Name <span>{{ getSortIcon('fullName') }}</span>
+              </th>
+              <th class="th-email" (click)="sortBy('email')">
+                Email <span>{{ getSortIcon('email') }}</span>
+              </th>
+              <th class="th-location" (click)="sortBy('location')">
+                Location <span>{{ getSortIcon('location') }}</span>
+              </th>
+              <th class="th-status">Status</th>
+              <th class="th-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-body">
+            @for (client of clients(); track trackByClientId($index, client)) {
+              <tr class="table-row">
+                <td class="td-id" data-label="ID">#{{ client.id }}</td>
+                <td class="td-name" data-label="Name">
+                  <div class="name-cell">
+                    <span class="full-name">{{ client.fullName }}</span>
+                    <span class="display-name">{{ client.displayName }}</span>
+                  </div>
+                </td>
+                <td class="td-email" data-label="Email">{{ client.email }}</td>
+                <td class="td-location" data-label="Location">{{ client.location }}</td>
+                <td class="td-status" data-label="Status">
+                  <span [class.status-active]="client.active" 
+                        [class.status-inactive]="!client.active" 
+                        class="status-badge">
+                    {{ client.active ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="td-actions" data-label="Actions">
+                  <div class="action-buttons">
+                    <button 
+                      (click)="openClientModal(client.id)"
+                      class="btn btn-sm btn-light-primary"
+                      title="View">
+                      👁️
+                    </button>
+                    <a [routerLink]="['/clients', client.id, 'edit']"
+                       [queryParams]="getCurrentQueryParams()"
+                       class="btn btn-sm btn-light-warning"
+                       title="Edit">
+                      ✏️
+                    </a>
+                    <button 
+                      (click)="deleteClient(client.id)" 
+                      class="btn btn-sm btn-light-danger"
+                      title="Delete">
+                      🗑️
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Summary and Page Size -->
+      <div class="summary-section">
+        <div class="summary-content">
+          <div class="summary-stats">
+            <p class="total-count">
+              Total Clients: <strong class="count-number">{{ totalElements() }}</strong>
+            </p>
+            <p class="showing-range">
+              Showing {{ currentPage() * pageSize() + 1 }} - {{ Math.min((currentPage() + 1) * pageSize(), totalElements()) }} of {{ totalElements() }}
+            </p>
+          </div>
+          <div class="page-size-selector">
+            <label for="pageSize" class="page-size-label">Per page:</label>
+            <select 
+              id="pageSize"
+              (change)="changePageSize($event)"
+              [value]="pageSize()"
+              class="page-size-select">
+              <option [value]="5">5</option>
+              <option [value]="10">10</option>
+              <option [value]="25">25</option>
+              <option [value]="50">50</option>
+              <option [value]="100">100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      @if (totalPages() > 1) {
+        <div class="pagination-section">
+          <nav class="pagination-nav" aria-label="Pagination">
+            <!-- Previous Button -->
+            <button
+              (click)="previousPage()"
+              [disabled]="currentPage() === 0"
+              class="page-nav-btn"
+              aria-label="Previous page">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <!-- First Page -->
+            @if (pageNumbers()[0] > 0) {
+              <button
+                (click)="goToPage(0)"
+                class="page-btn">
+                1
+              </button>
+              @if (pageNumbers()[0] > 1) {
+                <span class="page-dots">...</span>
+              }
+            }
+
+            <!-- Page Numbers -->
+            @for (page of pageNumbers(); track page) {
+              <button
+                (click)="goToPage(page)"
+                [class.page-btn-active]="page === currentPage()"
+                class="page-btn"
+                [attr.aria-current]="page === currentPage() ? 'page' : null">
+                {{ page + 1 }}
+              </button>
+            }
+
+            <!-- Last Page -->
+            @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 1) {
+              @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 2) {
+                <span class="page-dots">...</span>
+              }
+              <button
+                (click)="goToPage(totalPages() - 1)"
+                class="page-btn">
+                {{ totalPages() }}
+              </button>
+            }
+
+            <!-- Next Button -->
+            <button
+              (click)="nextPage()"
+              [disabled]="currentPage() === totalPages() - 1"
+              class="page-nav-btn"
+              aria-label="Next page">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </nav>
+        </div>
+      }
+    }
+  }
+</div>
+<!-- Client Detail Modal (Conditionally Rendered) -->
+@if (modalService.isOpen()) {
+  <app-client-detail-modal></app-client-detail-modal>
+}

@@ -1,0 +1,36 @@
+<header class="app-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>{{ title() }}</h1>
+      </div>
+      <nav class="header-nav">
+        <a 
+          routerLink="/clients" 
+          routerLinkActive="active" 
+          class="nav-link">
+          Clients
+        </a>
+        <a 
+          routerLink="/clients/new" 
+          class="nav-link-primary">
+          + Add Client
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="app-main container">
+  <router-outlet />
+</main>
+
+<footer class="app-footer">
+  <div class="container">
+    <p>&copy; 2026 Client Management System. Built by Raji.</p>
+  </div>
+</footer>
+
+<app-notification></app-notification>
+
+<app-confirmation-modal></app-confirmation-modal>

@@ -1,0 +1,72 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+@import 'styles/buttons';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  color: $color-text-primary;
+  background-color: $color-bg-gray;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-lg;
+  padding-right: $spacing-lg;
+}
+
+@include sm {
+  .container {
+    max-width: $breakpoint-sm;
+  }
+}
+
+@include md {
+  .container {
+    max-width: $breakpoint-md;
+  }
+}
+
+@include lg {
+  .container {
+    max-width: $breakpoint-lg;
+  }
+}
+
+@include xl {
+  .container {
+    max-width: $breakpoint-xl;
+  }
+}
+

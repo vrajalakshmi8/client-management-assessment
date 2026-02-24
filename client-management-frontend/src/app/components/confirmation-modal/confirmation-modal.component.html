@@ -1,0 +1,37 @@
+@if (isOpen()) {
+  <div 
+    class="modal-backdrop"
+    (click)="onBackdropClick($event)"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="'modal-title'"
+  >
+    <div 
+      class="modal-content"
+      (click)="$event.stopPropagation()"
+    >
+      <h2 id="modal-title" class="modal-title">
+        {{ title() }}
+      </h2>
+      <p class="modal-message">
+        {{ message() }}
+      </p>
+      <div class="modal-actions">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="btn btn-secondary"
+        >
+          {{ cancelText() }}
+        </button>
+        <button
+          type="button"
+          (click)="onConfirm()"
+          class="btn btn-danger"
+        >
+          {{ confirmText() }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

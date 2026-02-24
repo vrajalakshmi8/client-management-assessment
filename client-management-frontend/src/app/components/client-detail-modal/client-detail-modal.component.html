@@ -1,0 +1,97 @@
+<div 
+    class="detail-modal-backdrop"
+    (click)="onBackdropClick($event)">
+    <div class="detail-modal-container">
+      <div 
+        class="detail-modal-content"
+        (click)="$event.stopPropagation()">
+        <button 
+          (click)="closeModal()"
+          class="close-button">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        @if (loading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading client details...</p>
+          </div>
+        }
+
+        @if (error() && !loading()) {
+          <div class="error-container">
+            <div class="error-box">
+              <span class="error-icon">⚠️</span>
+              <p class="error-message">{{ error() }}</p>
+              <button 
+                (click)="loadClient(clientId()!)" 
+                class="btn btn-danger">
+                Retry
+              </button>
+            </div>
+          </div>
+        }
+
+        @if (client() && !loading()) {
+          <div class="client-details">
+            <div class="detail-header">
+              <div class="header-content">
+                <div class="profile-section">
+                  <div class="avatar">
+                    {{ client()!.displayName.charAt(0) }}{{ client()!.displayName.charAt(1) || '' }}
+                  </div>
+                  <div>
+                    <h2 class="client-name">{{ client()!.fullName }}</h2>
+                    <p class="display-name">{{ client()!.displayName }}</p>
+                    <span [class.status-active]="client()!.active" [class.status-inactive]="!client()!.active" class="status-badge">
+                      {{ client()!.active ? 'Active' : 'Inactive' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="detail-body">
+              <div class="info-section">
+                <h3 class="section-title">Contact Information</h3>
+                <div class="info-grid">
+                  <div>
+                    <label class="field-label">Email</label>
+                    <a 
+                      [href]="'mailto:' + client()!.email" 
+                      class="email-link">
+                      {{ client()!.email }}
+                    </a>
+                  </div>
+                  <div>
+                    <label class="field-label">Client ID</label>
+                    <p class="client-id">{{ client()!.id }}</p>
+                  </div>
+                  <div>
+                    <label class="field-label">Location</label>
+                    <p class="field-value">{{ client()!.location }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="info-section">
+                <h3 class="section-title">Details</h3>
+                <p class="detail-text">{{ client()!.details }}</p>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="detail-footer">
+              <div class="footer-actions">
+                <button 
+                  (click)="closeModal()"
+                  class="btn btn-secondary">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
